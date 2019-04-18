@@ -31,6 +31,7 @@ class OrderController extends Controller
     {
         $this->validate($request, [
             'product_id' => 'required|exists:products,id',
+            'penjualan' => 'required',
             'qty' => 'required|integer'
         ]);
         
@@ -49,6 +50,7 @@ class OrderController extends Controller
             'code' => $product->code,
             'name' => $product->name,
             'price' => $product->price,
+            'penjualan' => $request->penjualan,
             'qty' => $request->qty
         ];
         return response()->json($getCart, 200)
@@ -88,6 +90,17 @@ class OrderController extends Controller
                 'code' => $value['code'],
                 'name' => $value['name'],
                 'qty' => $value['qty'],
+                'penjualan' => $value['penjualan'],
+                'price' => $value['price'],
+                'result' => $value['price'] * $value['qty']
+            ];
+        })->all();
+        $resultpenjualan = collect($cart)->map(function($value) {
+            return [
+                'code' => $value['code'],
+                'name' => $value['name'],
+                'qty' => $value['qty'],
+                'penjualan' => $value['penjualan'],
                 'price' => $value['price'],
                 'result' => $value['price'] * $value['qty']
             ];
@@ -102,11 +115,12 @@ class OrderController extends Controller
                 'address' => $request->address,
                 'phone' => $request->phone
             ]);
-
+            $resultpenjualan = array_shift($resultpenjualan);
             $order = Order::create([
                 'invoice' => $this->generateInvoice(),
                 'customer_id' => $customer->id,
                 'user_id' => auth()->user()->id,
+                'penjualan' => $resultpenjualan['penjualan'],
                 'total' => array_sum(array_column($result, 'result'))
             ]);
 

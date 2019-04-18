@@ -12,7 +12,7 @@
                 <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Daengweb.id</a>
+                <a href="#" class="d-block">Tokoibuadjis.com</a>
             </div>
         </div>
 
@@ -49,6 +49,12 @@
                                 <p>Produk</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('produktransaction.index') }}" class="nav-link">
+                                <i class="fa fa-circle-o nav-icon"></i>
+                                <p>Stock</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 @endif
@@ -64,6 +70,7 @@
                 </li>
                 @endrole
 
+                @if (auth()->user()->can('show products') || auth()->user()->can('delete products') || auth()->user()->can('create products'))
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fa fa-shopping-bag"></i>
@@ -81,7 +88,8 @@
                         </li>
                     </ul>
                 </li>
-                
+                @endif
+
                 @role('admin')
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">

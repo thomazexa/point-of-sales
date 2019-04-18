@@ -50,6 +50,15 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
+                                            <label for="">Penjualan</label>
+                                            <select name="penjualan" id="penjualan"
+                                                v-model="cart.penjualan"
+                                                class="form-control" required width="100%">
+                                                <option value="CASH">CASH</option>
+                                                <option value="CREDIT">CREDIT</option>                                            
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="">Qty</label>
                                             <input type="number" name="qty"
                                                 v-model="cart.qty" 

@@ -64,8 +64,15 @@
                                     <p class="text-danger">{{ $errors->first('description') }}</p>
                                 </div>
                                 <div class="form-group">
+                                    <label for="">Nama Supplier</label>
+                                    <input type="text" name="supplier_name" required 
+                                        value="{{ $product->supplier_name }}"
+                                        class="form-control {{ $errors->has('supplier_name') ? 'is-invalid':'' }}">
+                                    <p class="text-danger">{{ $errors->first('supplier_name') }}</p>
+                                </div>
+                                <div class="form-group">
                                     <label for="">Stok</label>
-                                    <input type="number" name="stock" required 
+                                    <input type="number" min="{{ $product->stock }}" name="stock" required 
                                         value="{{ $product->stock }}"
                                         class="form-control {{ $errors->has('stock') ? 'is-invalid':'' }}">
                                     <p class="text-danger">{{ $errors->first('stock') }}</p>
@@ -89,6 +96,14 @@
                                         @endforeach
                                     </select>
                                     <p class="text-danger">{{ $errors->first('category_id') }}</p>
+                                </div>
+                                <div class="form-group">
+                                            <label for="">Tanggal Terima</label>
+                                            <input type="text" name="received_date" 
+                                                class="form-control {{ $errors->has('received_date') ? 'is-invalid':'' }}"
+                                                id="received_date"
+                                                value="{{ $product->received_date }}"
+                                                >
                                 </div>
                                 <div class="form-group">
                                     <label for="">Foto</label>
@@ -116,4 +131,14 @@
             </div>
         </section>
     </div>
+@endsection
+
+
+@section('js')
+    <script>
+        $('#received_date').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd'
+        });
+    </script>
 @endsection

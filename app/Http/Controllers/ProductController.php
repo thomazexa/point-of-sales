@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Category;
 use App\Product;
+use App\Products_transaction;
 use File;
 use Image;
 
@@ -44,9 +45,11 @@ class ProductController extends Controller
                 'code' => $request->code,
                 'name' => $request->name,
                 'description' => $request->description,
+                'supplier_name' => $request->supplier_name,
                 'stock' => $request->stock,
                 'price' => $request->price,
                 'category_id' => $request->category_id,
+                'received_date' => $request->received_date,
                 'photo' => $photo
             ]);
             return redirect(route('produk.index'))
@@ -101,18 +104,32 @@ class ProductController extends Controller
         try {
             $product = Product::findOrFail($id);
             $photo = $product->photo;
+            $stock = $product->stock;
+            $stockbaru = $request->stock - $stock;
 
             if ($request->hasFile('photo')) {
                 !empty($photo) ? File::delete(public_path('uploads/product/' . $photo)):null;
                 $photo = $this->saveFile($request->name, $request->file('photo'));
             }
 
+            if ($stockbaru != $stock) {
+                $product_transaction = Products_transaction::create([
+                    'code' => $request->code,
+                    'supplier_name' => $request->supplier_name,
+                    'stock' =>  $stock,
+                    'new_stock' => $stockbaru,
+                    'received_date' => $request->received_date
+                ]);
+            }
+
             $product->update([
                 'name' => $request->name,
                 'description' => $request->description,
+                'supplier_name' => $request->supplier_name,
                 'stock' => $request->stock,
                 'price' => $request->price,
                 'category_id' => $request->category_id,
+                'received_date' => $request->received_date,
                 'photo' => $photo
             ]);
 
