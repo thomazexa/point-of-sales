@@ -5,6 +5,8 @@ use App\Category;
 use App\Product;
 use App\Products_transaction;
 use File;
+use Excel;
+use DB;
 use Image;
 
 use Illuminate\Http\Request;
@@ -87,4 +89,17 @@ class ProductsTransactionController extends Controller
     {
         //
     }
+
+    public function downloadExcel($type)
+    {
+        $data = Products_transaction::get()->toArray();
+        return Excel::create('TokoIbuAdjis', function($excel) use ($data) {
+            
+            $excel->sheet('DataExport', function($sheet) use ($data)
+            {
+                $sheet->fromArray($data);
+            });
+        })->download($type);
+    }
+
 }

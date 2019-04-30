@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth'], function() {
         ]);
         Route::resource('/produk', 'ProductController');
         Route::resource('/produktransaction', 'ProductsTransactionController');
+        Route::get('/produktransactionexcel/{type}', 'ProductsTransactionController@downloadExcel');
     });
 
     Route::group(['middleware' => ['role:kasir']], function() {

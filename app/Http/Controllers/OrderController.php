@@ -130,6 +130,11 @@ class OrderController extends Controller
                     'qty' => $row['qty'],
                     'price' => $row['price']
                 ]);
+
+                $productorder = Product::find($key);
+                $productbefore = $productorder->stock - $row['qty'];
+                Product::where('id', $key)
+                    ->update(['stock' => $productbefore]);
             }
             DB::commit();
 

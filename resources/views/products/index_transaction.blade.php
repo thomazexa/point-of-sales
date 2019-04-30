@@ -28,6 +28,9 @@
                     <div class="col-md-12">
                         @card
                             @slot('title')
+                            <a href="{{ url('produktransactionexcel/xls') }}"><button class="btn btn-success">Download Excel xls</button></a>
+                            <a href="{{ url('produktransactionexcel/xlsx') }}"><button class="btn btn-success">Download Excel xlsx</button></a>
+                            <a href="{{ url('produktransactionexcel/csv') }}"><button class="btn btn-success">Download CSV</button></a>
                             @endslot
                             
                             @if (session('success'))
@@ -46,7 +49,6 @@
                                             <th>Barang Yang di terima</th>
                                             <th>Tanggal Terima</th>
                                             <th>Last Update</th>
-                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -61,19 +63,6 @@
                                             <td>{{ $row->new_stock }}</td>
                                             <td>{{ $row->received_date }}</td>
                                             <td>{{ $row->updated_at }}</td>
-                                            <td>
-                                                <form action="{{ route('produk.destroy', $row->id) }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <a href="{{ route('produk.edit', $row->id) }}" 
-                                                        class="btn btn-warning btn-sm">
-                                                        <i class="fa fa-edit"></i>
-                                                    </a>
-                                                    <button class="btn btn-danger btn-sm">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
                                         </tr>
                                         @empty
                                         <tr>
