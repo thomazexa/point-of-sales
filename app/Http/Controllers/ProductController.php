@@ -30,6 +30,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:100',
             'description' => 'nullable|string|max:100',
             'stock' => 'required|integer',
+            'modal_price' => 'required|integer',
             'price' => 'required|integer',
             'category_id' => 'required|exists:categories,id',
             'photo' => 'nullable|image|mimes:jpg,png,jpeg'
@@ -47,6 +48,10 @@ class ProductController extends Controller
                 'description' => $request->description,
                 'supplier_name' => $request->supplier_name,
                 'stock' => $request->stock,
+                'supplier_price' => $request->supplier_price,
+                'penjualan' => $request->penjualan,
+                'payment_date' => $request->payment_date,
+                'modal_price' => $request->modal_price,
                 'price' => $request->price,
                 'category_id' => $request->category_id,
                 'received_date' => $request->received_date,
@@ -118,6 +123,9 @@ class ProductController extends Controller
                     'supplier_name' => $request->supplier_name,
                     'stock' =>  $stock,
                     'new_stock' => $stockbaru,
+                    'supplier_price' => $request->supplier_price,
+                    'penjualan' => $request->penjualan,
+                    'payment_date' => $request->payment_date,
                     'received_date' => $request->received_date
                 ]);
             }
@@ -127,6 +135,10 @@ class ProductController extends Controller
                 'description' => $request->description,
                 'supplier_name' => $request->supplier_name,
                 'stock' => $request->stock,
+                'modal_price' => $request->modal_price,
+                'supplier_price' => $request->supplier_price,
+                'penjualan' => $request->penjualan,
+                'payment_date' => $request->payment_date,
                 'price' => $request->price,
                 'category_id' => $request->category_id,
                 'received_date' => $request->received_date,

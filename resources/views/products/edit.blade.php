@@ -78,7 +78,37 @@
                                     <p class="text-danger">{{ $errors->first('stock') }}</p>
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Harga</label>
+                                            <label for="">Penjualan</label>
+                                            <select name="penjualan" id="penjualan"
+                                                class="form-control" required width="100%">
+                                                <option value="CASH">CASH</option>
+                                                <option value="CREDIT">CREDIT</option>                                            
+                                            </select>
+                                </div>
+                                <div class="form-group">
+                                            <label for="">Tanggal Pembayaran Ke Supplier</label>
+                                            <input type="text" name="payment_date" 
+                                                class="form-control {{ $errors->has('payment_date') ? 'is-invalid':'' }}"
+                                                id="payment_date"
+                                                value="{{ $product->payment_date }}"
+                                                >
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Jumlah Pembayaran ke Supplier</label>
+                                    <input type="number" name="supplier_price" required 
+                                        value="{{ $product->supplier_price }}"
+                                        class="form-control {{ $errors->has('supplier_price') ? 'is-invalid':'' }}">
+                                    <p class="text-danger">{{ $errors->first('supplier_price') }}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Harga Modal</label>
+                                    <input type="number" name="modal_price" required 
+                                        value="{{ $product->modal_price }}"
+                                        class="form-control {{ $errors->has('modal_price') ? 'is-invalid':'' }}">
+                                    <p class="text-danger">{{ $errors->first('modal_price') }}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Harga Jual</label>
                                     <input type="number" name="price" required 
                                         value="{{ $product->price }}"
                                         class="form-control {{ $errors->has('price') ? 'is-invalid':'' }}">
