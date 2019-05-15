@@ -59,6 +59,13 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
+                                            <label for="">Jumlah Penagihan</label>
+                                            <input type="number" name="total_penagihan"
+                                                v-model="cart.total_penagihan" 
+                                                id="total_penagihan" value="0" 
+                                                min="1" class="form-control">
+                                        </div>
+                                        <div class="form-group">
                                             <label for="">Qty</label>
                                             <input type="number" name="qty"
                                                 v-model="cart.qty" 

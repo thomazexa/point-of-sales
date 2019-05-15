@@ -39,14 +39,14 @@
                                     Transaksi telah disimpan, Invoice: <strong>#@{{ message }}</strong>
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Email</label>
+                                    <label for="">Nama Toko</label>
                                     <input type="text" name="email" 
                                         v-model="customer.email"
                                         class="form-control" 
                                         @keyup.enter.prevent="searchCustomer"
                                         required
                                         >
-                                    <p>Tekan enter untuk mengecek email.</p>
+                                    <p>Tekan enter untuk mengecek data Toko.</p>
                                 </div>
                                 <div v-if="formCustomer">
                                     <div class="form-group">

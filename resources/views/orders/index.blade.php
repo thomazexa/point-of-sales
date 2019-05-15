@@ -150,7 +150,7 @@
                                             <td>{{ $row->customer->name }}</td>
                                             <td>{{ $row->customer->phone }}</td>
                                             <td>Rp {{ number_format($row->total) }}</td>
-                                            <td>Rp {{ number_format($row->total_profit) }}</td>
+                                            <td>Rp {{ number_format($row->total - $row->total_modal) }}</td>
                                             <td>{{ $row->user->name }}</td>
                                             <td>{{ $row->created_at->format('d-m-Y H:i:s') }}</td>
                                             <td>

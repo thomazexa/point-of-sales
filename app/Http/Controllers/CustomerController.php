@@ -10,7 +10,7 @@ class CustomerController extends Controller
     public function search(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email'
+            'email' => 'required'
         ]);
 
         $customer = Customer::where('email', $request->email)->first();

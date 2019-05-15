@@ -50,7 +50,9 @@ class OrderController extends Controller
             'code' => $product->code,
             'name' => $product->name,
             'price' => $product->price,
+            'modal_price' => $product->modal_price,
             'penjualan' => $request->penjualan,
+            'total_penagihan' => $request->total_penagihan,
             'qty' => $request->qty
         ];
         return response()->json($getCart, 200)
@@ -78,7 +80,7 @@ class OrderController extends Controller
     public function storeOrder(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email',
+            'email' => 'required',
             'name' => 'required|string|max:100',
             'address' => 'required',
             'phone' => 'required|numeric'
@@ -91,8 +93,11 @@ class OrderController extends Controller
                 'name' => $value['name'],
                 'qty' => $value['qty'],
                 'penjualan' => $value['penjualan'],
+                'total_penagihan' => $value['total_penagihan'],
                 'price' => $value['price'],
-                'result' => $value['price'] * $value['qty']
+                'modal_price' => $value['modal_price'],
+                'result' => $value['price'] * $value['qty'],
+                'result_modal' => $value['modal_price'] * $value['qty']
             ];
         })->all();
         $resultpenjualan = collect($cart)->map(function($value) {
@@ -101,8 +106,11 @@ class OrderController extends Controller
                 'name' => $value['name'],
                 'qty' => $value['qty'],
                 'penjualan' => $value['penjualan'],
+                'total_penagihan' => $value['total_penagihan'],
                 'price' => $value['price'],
-                'result' => $value['price'] * $value['qty']
+                'modal_price' => $value['modal_price'],
+                'result' => $value['price'] * $value['qty'],
+                'result_modal' => $value['modal_price'] * $value['qty']
             ];
         })->all();
 
@@ -121,17 +129,20 @@ class OrderController extends Controller
                 'customer_id' => $customer->id,
                 'user_id' => auth()->user()->id,
                 'penjualan' => $resultpenjualan['penjualan'],
-                'total' => array_sum(array_column($result, 'result'))
+                'total_penagihan' => $resultpenjualan['total_penagihan'],
+                'total' => array_sum(array_column($result, 'result')),
+                'total_modal' => array_sum(array_column($result, 'result_modal'))
             ]);
 
             foreach ($result as $key => $row) {
+                $productorder = Product::find($key);
                 $order->order_detail()->create([
                     'product_id' => $key,
                     'qty' => $row['qty'],
+                    'modal_price' => $productorder->modal_price,
                     'price' => $row['price']
                 ]);
 
-                $productorder = Product::find($key);
                 $productbefore = $productorder->stock - $row['qty'];
                 Product::where('id', $key)
                     ->update(['stock' => $productbefore]);
@@ -194,6 +205,7 @@ class OrderController extends Controller
             'orders' => $orders,
             'sold' => $this->countItem($orders),
             'total' => $this->countTotal($orders),
+            'total_modal' => $this->countTotal_modal($orders),
             'total_customer' => $this->countCustomer($orders),
             'customers' => $customers,
             'users' => $users
@@ -216,6 +228,16 @@ class OrderController extends Controller
         $total = 0;
         if ($orders->count() > 0) {
             $sub_total = $orders->pluck('total')->all();
+            $total = array_sum($sub_total);
+        }
+        return $total;
+    }
+
+    private function countTotal_modal($orders)
+    {
+        $total = 0;
+        if ($orders->count() > 0) {
+            $sub_total = $orders->pluck('total_modal')->all();
             $total = array_sum($sub_total);
         }
         return $total;
